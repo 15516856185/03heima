@@ -30,8 +30,7 @@
   <p class="p">已有账号！点击<router-link to='/login'>登录</router-link></p>
 </van-form>
   </div>
- </template>
-
+</template>
 <script>
 export default {
   data () {
@@ -65,7 +64,13 @@ export default {
       const { statusCode, message } = res.data
       if (statusCode === 200) {
         this.$toast.success(message)
-        this.$router.push('/login')
+        this.$router.push({
+          name: 'login',
+          params: {
+            username: this.username,
+            password: this.password
+          }
+        })
       } else {
         this.$toast.fail(message)
       }
@@ -74,6 +79,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang = 'less' scoped>
+ .p{
+     float: right;
+     font-size: 14px;
+     padding: 10px;
+     a {
+         color: blue;
+     }
+ }
 </style>

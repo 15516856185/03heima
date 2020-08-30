@@ -9,9 +9,15 @@ import Vant from 'vant'
 import 'vant/lib/index.css'
 import axios from 'axios'
 import 'amfe-flexible'
+import navitem from './components/Navitem.vue'
+import moment from 'moment'
+Vue.filter('time', (input) => {
+  return moment(input).format('YYYY-MM-DD')
+})
 Vue.prototype.$axios = axios
 axios.defaults.baseURL = 'http://localhost:3000'
 Vue.use(Vant)
+Vue.component('navitem', navitem)
 Vue.component('logo', logo)
 Vue.component('myheader', header)
 Vue.config.productionTip = false
