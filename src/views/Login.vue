@@ -62,9 +62,9 @@ export default {
       // console.log(res.data)
       if (statusCode === 200) {
         this.$toast.success(message)
-        this.$router.push('/user')
         localStorage.setItem('token', data.token)
         localStorage.setItem('id', data.user.id)
+        this.$router.push('/user')
       } else {
         this.$toast.fail('登录失败')
       }

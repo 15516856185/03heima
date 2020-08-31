@@ -3,13 +3,15 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Regirest from '../views/Regirest.vue'
 import User from '../views/User.vue'
+import Edit from '../views/Edit.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   { path: '/login', component: Login, name: 'login' },
   { path: '/regirest', component: Regirest, name: 'regirest' },
-  { path: '/user', component: User, name: 'user' }
+  { path: '/user', component: User, name: 'user' },
+  { path: '/edit', component: Edit, name: 'edit' }
 ]
 
 const router = new VueRouter({

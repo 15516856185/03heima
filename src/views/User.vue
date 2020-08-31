@@ -1,6 +1,6 @@
 <template>
   <div class="user">
-      <div class="header">
+      <div class="header"  @click="$router.push('/edit')">
           <div class="left">
               <img :src="base+user.head_img" alt="">
           </div>
@@ -30,9 +30,12 @@
           <template>我的收藏</template>
           <template #content>文章/视频</template>
       </navitem>
-      <navitem to='/set'>
+      <navitem to='/edit'>
           <template >设置</template>
       </navitem>
+     <div class="butt">
+      <van-button type="primary" block @click='show'>退出</van-button>
+   </div>
   </div>
 </template>
 
@@ -50,23 +53,34 @@ export default {
   },
   async created () {
     const id = localStorage.getItem('id')
-    const token = localStorage.getItem('token')
+    // const token = localStorage.getItem('token')
     // console.log(id)
     // console.log(token)
-    const res = await this.$axios.get(`/user/${id}`, {
-      headers: { Authorization: token }
-    })
+    const res = await this.$axios.get(`/user/${id}`)
     // console.log(res)
     const { statusCode, data } = res.data
     if (statusCode === 200) {
       this.user = data
     //   console.log(this.user)
-    } else if (statusCode === 401) {
-      this.$router.push('/login')
-      localStorage.removeItem('token')
-      localStorage.removeItem('id')
+    }
+  },
+  methods: {
+    async show () {
+      try {
+        await this.$dialog.confirm({
+          title: '温馨提示',
+          message: '您确定取消吗'
+        })
+        localStorage.removeItem('token')
+        localStorage.removeItem('id')
+        this.$router.push('/login')
+        this.$toast('退出成功')
+      } catch {
+        this.$toast('取消退出')
+      }
     }
   }
+
 }
 </script>
 
@@ -108,5 +122,9 @@ export default {
           font-size: 20px;
        }
     }
+
 }
+.butt {
+    margin: 20px;
+ }
 </style>
