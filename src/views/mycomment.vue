@@ -1,6 +1,15 @@
 <template>
   <div class="mycomment">
        <myheader>我的跟帖</myheader>
+       <van-pull-refresh v-model="refreshing" @refresh="onRefresh">
+       <van-list
+  v-model="loading"
+  :finished="finished"
+  finished-text="没有更多了"
+  :immediate-check="false"
+  offset="10"
+  @load="onLoad"
+>
       <div class="list" v-for="item in list" :key="item.id">
        <div class="time">{{item.create_date|time('YYYY-MM-DD hh:mm')}}</div>
          <div class="comment-conter" v-if="item.parent">
@@ -14,6 +23,8 @@
            <span class="iconfont iconjiantou1"></span>
        </div>
       </div>
+      </van-list>
+      </van-pull-refresh>
   </div>
 </template>
 
@@ -21,16 +32,49 @@
 export default {
   data () {
     return {
-      list: []
+      list: [],
+      pageIndex: 1,
+      pageSize: 6,
+      loading: false,
+      finished: false,
+      refreshing: false
     }
   },
   methods: {
     async add () {
-      const res = await this.$axios.get('/user_comments')
+      const res = await this.$axios.get('/user_comments', {
+        params: {
+          pageIndex: this.pageIndex,
+          pageSize: this.pageSize
+        }
+      })
+      // console.log(res.data.data)
       if (res.data.statusCode === 200) {
-        this.list = res.data.data
+        this.list = [...res.data.data, ...this.list]
+        this.loading = false
+        if (res.data.data.length < this.pageSize) {
+          this.finished = true
+        //   this.loading = true
+        }
       }
-      console.log(this.list)
+
+      this.refreshing = false
+    //   console.log(this.list)
+    },
+    onLoad () {
+      // 异步更新数据
+      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
+      setTimeout(() => {
+        this.pageIndex++
+        this.add()
+      }, 1000)
+    },
+    onRefresh () {
+      this.pageIndex = 1
+      this.list = []
+      //   this.loading = true
+      //   this.finished = false
+      this.add()
     }
   },
   created () {
