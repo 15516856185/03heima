@@ -34,3 +34,10 @@ axios.interceptors.response.use(function (response) {
   // 对响应错误做点什么
   return Promise.reject(error)
 })
+Vue.prototype.$Url = function (url) {
+  if (url.startsWith('http')) {
+    return url
+  } else {
+    return 'http://localhost:3000' + url
+  }
+}
