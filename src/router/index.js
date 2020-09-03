@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import Regirest from '../views/Regirest.vue'
-import User from '../views/User.vue'
-import Edit from '../views/Edit.vue'
-import myfollow from '../views/myfollow.vue'
-import mycomment from '../views/mycomment.vue'
-import mystar from '../views/mystar.vue'
+import Login from '../views/user/Login.vue'
+import Regirest from '../views/user/Regirest.vue'
+import User from '../views/user/User.vue'
+import Edit from '../views/user/Edit.vue'
+import myfollow from '../views/user/myfollow.vue'
+import mycomment from '../views/user/mycomment.vue'
+import mystar from '../views/user/mystar.vue'
+import index from '../views/index/index.vue'
 
 Vue.use(VueRouter)
 
@@ -17,7 +18,8 @@ const routes = [
   { path: '/edit', component: Edit, name: 'edit' },
   { path: '/myfollow', component: myfollow, name: 'myfollow' },
   { path: '/mycomment', component: mycomment, name: 'mycomment' },
-  { path: '/mystar', component: mystar, name: 'mystar' }
+  { path: '/mystar', component: mystar, name: 'mystar' },
+  { path: '/', component: index, name: 'index' }
 ]
 
 const router = new VueRouter({
@@ -37,7 +39,7 @@ router.beforeEach(function (to, from, next) {
   // } else {
   //   next()
   // }
-  const authUrls = ['/user', '/user-edit', '/myfollow', '/mycomment']
+  const authUrls = ['/user', '/user-edit', '/myfollow', '/mycomment', '/mystar']
   if (!authUrls.includes(to.path) || token) {
     next()
   } else {
